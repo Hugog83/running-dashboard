@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running Dashboard - Hugo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1>Running Dashboard</h1>
+    <p>Tableau de bord de mes entraînements de course à pied.</p>
+  </header>
+
+  <main>
+    <section class="stats-grid">
+      <article class="stat-card">
+        <h2>Total distance</h2>
+        <p id="totalDistance">-- km</p>
+      </article>
+
+      <article class="stat-card">
+        <h2>Nombre de sorties</h2>
+        <p id="totalRuns">--</p>
+      </article>
+
+      <article class="stat-card">
+        <h2>Temps total</h2>
+        <p id="totalTime">--</p>
+      </article>
+
+      <article class="stat-card">
+        <h2>Vitesse moyenne</h2>
+        <p id="averageSpeed">-- km/h</p>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Meilleures performances</h2>
+      <div class="highlights">
+        <p><strong>Plus longue sortie :</strong> <span id="longestRun">--</span></p>
+        <p><strong>Sortie la plus rapide :</strong> <span id="fastestRun">--</span></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Objectifs</h2>
+      <div id="objectivesList">
+        <p>Chargement des objectifs...</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Historique des sorties</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Distance</th>
+            <th>Temps</th>
+            <th>Calories</th>
+            <th>Vitesse</th>
+            <th>Commentaire</th>
+          </tr>
+        </thead>
+        <tbody id="runsTableBody">
+          <tr>
+            <td colspan="6">Chargement des données...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>Projet réalisé avec HTML, CSS et JavaScript.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
