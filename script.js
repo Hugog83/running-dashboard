@@ -217,7 +217,6 @@ function renderRunsTable(runs) {
           <td>${run.time}</td>
           <td>${run.calories}</td>
           <td>${formatNumber(run.speed)} km/h</td>
-          <td>${run.comment}</td>
         </tr>
       `;
     })
