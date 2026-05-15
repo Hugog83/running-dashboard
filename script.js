@@ -6,6 +6,7 @@ const runningFiles = [
 ];
 
 const objectivesFile = "data/running-objectives.csv";
+let allRunsData = [];
 
 // Fonction principale appelée au chargement de la page.
 // Elle coordonne le chargement des données et l'affichage du dashboard.
@@ -14,11 +15,14 @@ async function initDashboard() {
     const allRuns = await loadAllRuns();
     const objectives = await loadObjectives();
 
-    renderStats(allRuns);
-    renderYearlyStats(allRuns);
-    renderHighlights(allRuns);
+    allRunsData = allRuns;
+
+    renderStats(allRunsData);
+    renderYearlyStats(allRunsData);
+    renderHighlights(allRunsData);
     renderObjectives(objectives);
-    renderRunsTable(allRuns);
+    initFilters();
+    renderFilteredRuns();
   } catch (error) {
     console.error("Erreur pendant le chargement des données :", error);
   }
@@ -221,16 +225,84 @@ function renderObjectives(objectives) {
     .join("");
 }
 
+// Initialise les événements liés aux filtres.
+function initFilters() {
+  const yearFilter = document.querySelector("#yearFilter");
+  const sortSelect = document.querySelector("#sortSelect");
+  const longRunsOnly = document.querySelector("#longRunsOnly");
+
+  yearFilter.addEventListener("change", renderFilteredRuns);
+  sortSelect.addEventListener("change", renderFilteredRuns);
+  longRunsOnly.addEventListener("change", renderFilteredRuns);
+}
+
+// Applique les filtres sélectionnés, trie les données,
+// puis met à jour le tableau d'historique.
+function renderFilteredRuns() {
+  const yearFilter = document.querySelector("#yearFilter").value;
+  const sortSelect = document.querySelector("#sortSelect").value;
+  const longRunsOnly = document.querySelector("#longRunsOnly").checked;
+
+  let filteredRuns = [...allRunsData];
+
+  if (yearFilter !== "all") {
+    filteredRuns = filteredRuns.filter((run) => run.year === Number(yearFilter));
+  }
+
+  if (longRunsOnly) {
+    filteredRuns = filteredRuns.filter((run) => run.distance >= 10);
+  }
+
+  filteredRuns.sort((a, b) => {
+    switch (sortSelect) {
+      case "date-asc":
+        return a.dateObject - b.dateObject;
+
+      case "distance-desc":
+        return b.distance - a.distance;
+
+      case "speed-desc":
+        return b.speed - a.speed;
+
+      case "time-desc":
+        return b.timeInSeconds - a.timeInSeconds;
+
+      case "date-desc":
+      default:
+        return b.dateObject - a.dateObject;
+    }
+  });
+
+  renderRunsTable(filteredRuns);
+  renderResultsCount(filteredRuns.length);
+}
+
+// Affiche le nombre de sorties correspondant aux filtres.
+function renderResultsCount(count) {
+  const resultsCount = document.querySelector("#resultsCount");
+
+  resultsCount.textContent = `${count} sortie${count > 1 ? "s" : ""} affichée${count > 1 ? "s" : ""}`;
+}
+
 // Génère les lignes du tableau d'historique des sorties.
 function renderRunsTable(runs) {
   const tableBody = document.querySelector("#runsTableBody");
+
+  if (runs.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="5">Aucune sortie ne correspond aux filtres sélectionnés.</td>
+      </tr>
+    `;
+    return;
+  }
 
   tableBody.innerHTML = runs
     .map((run) => {
       return `
         <tr>
           <td>${run.date}</td>
-          <td>${run.distance} km</td>
+          <td>${formatNumber(run.distance)} km</td>
           <td>${run.time}</td>
           <td>${run.calories}</td>
           <td>${formatNumber(run.speed)} km/h</td>

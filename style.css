@@ -145,23 +145,103 @@ footer {
   margin-bottom: 0.5rem;
 }
 
-@media (max-width: 900px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: end;
+  margin-top: 1.5rem;
 }
 
-@media (max-width: 600px) {
+.filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: bold;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.filters select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background-color: #f9fafb;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.filters select:hover {
+  background-color: white;
+  border-color: #F08058;
+}
+
+.filters select:focus {
+  outline: none;
+  border-color: #F08058;
+  box-shadow: 0 0 0 3px rgba(240, 128, 88, 0.2);
+}
+
+.checkbox-label {
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem !important;
+  min-height: 49px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background-color: #f9fafb;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.checkbox-label:hover {
+  background-color: white;
+  border-color: #F08058;
+  transform: translateY(-2px);
+}
+
+.checkbox-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: #F08058;
+  cursor: pointer;
+}
+
+.results-count {
+  display: inline-block;
+  margin-top: 1.2rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  background-color: #fff7ed;
+  color: #F08058;
+  font-weight: bold;
+}
+
+@media (max-width: 800px) {
   .hero h1 {
     font-size: 2.2rem;
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .yearly-stats {
     grid-template-columns: 1fr;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-label {
+    justify-content: flex-start;
   }
 
   table {

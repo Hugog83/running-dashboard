@@ -58,6 +58,40 @@
     </section>
 
     <section class="card">
+      <h2>Filtres</h2>
+
+      <div class="filters">
+        <label>
+          Année
+          <select id="yearFilter">
+            <option value="all">Toutes les années</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+          </select>
+        </label>
+
+        <label>
+          Trier par
+          <select id="sortSelect">
+            <option value="date-desc">Date, plus récent</option>
+            <option value="date-asc">Date, plus ancien</option>
+            <option value="distance-desc">Distance, décroissant</option>
+            <option value="speed-desc">Vitesse, décroissant</option>
+            <option value="time-desc">Durée, décroissant</option>
+          </select>
+        </label>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="longRunsOnly" />
+          Sorties de 10 km ou plus
+        </label>
+      </div>
+
+      <p id="resultsCount" class="results-count">-- sorties affichées</p>
+    </section>
+
+    <section class="card">
       <h2>Historique des sorties</h2>
         <table>
             <thead>
