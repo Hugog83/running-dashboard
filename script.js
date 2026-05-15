@@ -301,11 +301,11 @@ function renderRunsTable(runs) {
     .map((run) => {
       return `
         <tr>
-          <td>${run.date}</td>
-          <td>${formatNumber(run.distance)} km</td>
-          <td>${run.time}</td>
-          <td>${run.calories}</td>
-          <td>${formatNumber(run.speed)} km/h</td>
+          <td data-label="Date">${run.date}</td>
+          <td data-label="Distance">${formatNumber(run.distance)} km</td>
+          <td data-label="Temps">${run.time}</td>
+          <td data-label="Calories">${run.calories}</td>
+          <td data-label="Vitesse">${formatNumber(run.speed)} km/h</td>
         </tr>
       `;
     })

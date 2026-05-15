@@ -231,14 +231,16 @@ footer {
 
 @media (max-width: 768px) {
   .hero {
+    width: 100%;
     padding: 3rem 1.5rem;
-    min-height: auto;
+    text-align: center;
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
   }
 
   .hero h1 {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    line-height: 1.2;
   }
 
   .hero p {
@@ -274,5 +276,55 @@ footer {
 
   .checkbox-label {
     justify-content: flex-start;
+  }
+
+  .table-container {
+    overflow-x: visible;
+  }
+
+  table {
+    min-width: 0;
+    width: 100%;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  table tr {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #f1f1f1;
+    text-align: right;
+  }
+
+  table td:last-child {
+    border-bottom: none;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #1f2937;
+    text-align: left;
   }
 }
