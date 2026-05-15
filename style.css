@@ -66,9 +66,15 @@ main {
 }
 
 table {
+  min-width: 650px;
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
 }
 
 th,
@@ -223,13 +229,39 @@ footer {
   font-weight: bold;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 1.5rem;
+    min-height: auto;
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+  }
+
   .hero h1 {
     font-size: 2.2rem;
   }
 
+  .hero p {
+    font-size: 1rem;
+  }
+
+  main {
+    width: 92%;
+    margin: 2rem auto;
+    gap: 1.5rem;
+  }
+
   .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card,
+  .card {
+    padding: 1.5rem;
+  }
+
+  .stat-card p {
+    font-size: 1.8rem;
   }
 
   .yearly-stats {
@@ -242,9 +274,5 @@ footer {
 
   .checkbox-label {
     justify-content: flex-start;
-  }
-
-  table {
-    font-size: 0.85rem;
   }
 }
