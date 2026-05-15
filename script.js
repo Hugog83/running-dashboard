@@ -1,3 +1,4 @@
+// Fichiers CSV utilisés comme sources de données.
 const runningFiles = [
   { year: 2024, path: "data/running-2024.csv" },
   { year: 2025, path: "data/running-2025.csv" },
@@ -6,6 +7,8 @@ const runningFiles = [
 
 const objectivesFile = "data/running-objectives.csv";
 
+// Fonction principale appelée au chargement de la page.
+// Elle coordonne le chargement des données et l'affichage du dashboard.
 async function initDashboard() {
   try {
     const allRuns = await loadAllRuns();
@@ -20,6 +23,8 @@ async function initDashboard() {
   }
 }
 
+// Charge tous les fichiers CSV de course, fusionne les données,
+// puis trie les sorties de la plus récente à la plus ancienne.
 async function loadAllRuns() {
   const yearlyRuns = await Promise.all(
     runningFiles.map(async (file) => {
@@ -34,12 +39,14 @@ async function loadAllRuns() {
     .sort((a, b) => b.dateObject - a.dateObject);
 }
 
+//Même chose qu'au dessus mais avec les objectifs
 async function loadObjectives() {
   const response = await fetch(objectivesFile);
   const csvText = await response.text();
   return parseObjectivesCsv(csvText);
 }
 
+// Transforme le contenu brut d'un CSV de course en tableau d'objets JavaScript.
 function parseRunningCsv(csvText, year) {
   const lines = csvText.split("\n").filter((line) => line.trim() !== "");
 
@@ -76,6 +83,7 @@ function parseRunningCsv(csvText, year) {
     .filter(Boolean);
 }
 
+// Transforme le CSV des objectifs en objets JavaScript exploitables.
 function parseObjectivesCsv(csvText) {
   const lines = csvText.split("\n").filter((line) => line.trim() !== "");
 
@@ -98,6 +106,7 @@ function parseObjectivesCsv(csvText) {
     .filter(Boolean);
 }
 
+// Lit correctement une ligne CSV, y compris les valeurs entourées de guillemets.
 function parseCsvLine(line) {
   const result = [];
   let currentValue = "";
@@ -124,11 +133,13 @@ function parseCsvLine(line) {
   return result;
 }
 
+// Convertit un nombre au format français("10,5") en nombre JavaScript.
 function parseFrenchNumber(value) {
   if (!value) return 0;
   return Number(value.replace(",", "."));
 }
 
+// Convertit une date française au format JJ/MM/AAAA en objet Date JavaScript.
 function parseFrenchDate(dateText) {
   const [day, month, year] = dateText.split("/");
 
@@ -137,6 +148,7 @@ function parseFrenchDate(dateText) {
   return new Date(`${fullYear}-${month}-${day}`);
 }
 
+// Convertit une durée au format HH:MM:SS en nombre total de secondes.
 function parseTimeToSeconds(timeText) {
   const parts = timeText.split(":").map(Number);
 
@@ -159,6 +171,7 @@ function formatNumber(value) {
   return value.toFixed(2).replace(".", ",");
 }
 
+// Affiche les statistiques globales dans les cards du dashboard.
 function renderStats(runs) {
   const totalDistance = runs.reduce((sum, run) => sum + run.distance, 0);
   const totalRuns = runs.length;
@@ -171,6 +184,7 @@ function renderStats(runs) {
   document.querySelector("#averageSpeed").textContent = `${formatNumber(averageSpeed)} km/h`;
 }
 
+// Affiche la plus longue sortie et la sortie la plus rapide.
 function renderHighlights(runs) {
   const longestRun = runs.reduce((best, run) => {
     return run.distance > best.distance ? run : best;
@@ -187,6 +201,7 @@ function renderHighlights(runs) {
     `${formatNumber(fastestRun.speed)} km/h le ${fastestRun.date}`;
 }
 
+// Affiche la liste des objectifs avec un statut validé ou à faire.
 function renderObjectives(objectives) {
   const objectivesList = document.querySelector("#objectivesList");
 
@@ -205,6 +220,7 @@ function renderObjectives(objectives) {
     .join("");
 }
 
+// Génère les lignes du tableau d'historique des sorties.
 function renderRunsTable(runs) {
   const tableBody = document.querySelector("#runsTableBody");
 
