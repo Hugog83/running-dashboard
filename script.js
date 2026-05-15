@@ -15,6 +15,7 @@ async function initDashboard() {
     const objectives = await loadObjectives();
 
     renderStats(allRuns);
+    renderYearlyStats(allRuns);
     renderHighlights(allRuns);
     renderObjectives(objectives);
     renderRunsTable(allRuns);
@@ -234,6 +235,51 @@ function renderRunsTable(runs) {
           <td>${run.calories}</td>
           <td>${formatNumber(run.speed)} km/h</td>
         </tr>
+      `;
+    })
+    .join("");
+}
+
+// Calcule et affiche les statistiques séparées par année.
+function renderYearlyStats(runs) {
+  const yearlyStatsContainer = document.querySelector("#yearlyStats");
+
+  const statsByYear = {};
+
+  runs.forEach((run) => {
+    if (!statsByYear[run.year]) {
+      statsByYear[run.year] = {
+        year: run.year,
+        totalRuns: 0,
+        totalDistance: 0,
+        totalTime: 0,
+        totalCalories: 0,
+      };
+    }
+
+    statsByYear[run.year].totalRuns += 1;
+    statsByYear[run.year].totalDistance += run.distance;
+    statsByYear[run.year].totalTime += run.timeInSeconds;
+    statsByYear[run.year].totalCalories += run.calories;
+  });
+
+  const yearlyStats = Object.values(statsByYear).sort((a, b) => b.year - a.year);
+
+  yearlyStatsContainer.innerHTML = yearlyStats
+    .map((stats) => {
+      const averageSpeed = stats.totalDistance / (stats.totalTime / 3600);
+
+      return `
+        <article class="year-card">
+          <h3>${stats.year}</h3>
+          <ul>
+            <li><strong>Sorties :</strong> ${stats.totalRuns}</li>
+            <li><strong>Distance :</strong> ${formatNumber(stats.totalDistance)} km</li>
+            <li><strong>Temps :</strong> ${formatDuration(stats.totalTime)}</li>
+            <li><strong>Vitesse moyenne :</strong> ${formatNumber(averageSpeed)} km/h</li>
+            <li><strong>Calories :</strong> ${stats.totalCalories}</li>
+          </ul>
+        </article>
       `;
     })
     .join("");
